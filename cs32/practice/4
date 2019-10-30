@@ -1,0 +1,115 @@
+#include <iostream>
+#include <map>
+#include <utility>
+
+using namespace std;
+
+void insertionSort(int arr[], size_t size){ //O(n^2)
+    int item;
+    int shiftindex;
+    for(int i = 1; i < size; i++){
+        item = arr[i];
+        shiftindex = i - 1;
+        while(shiftindex >= 0 && arr[shiftindex] > item){
+            arr[shiftindex + 1] = arr[shiftindex];
+            shiftindex -= 1;
+        }
+        arr[shiftindex + 1] = item;
+    }
+}
+void merge(int arr[], size_t leftsize, size_t rightsize){
+    int num = 0;
+    int leftcopy = 0;
+    int rightcopy = 0;
+
+    int *temp = new int [leftsize + rightsize];
+
+    while(leftcopy < leftsize && rightcopy < rightsize){
+        if(arr[leftcopy] < (arr + leftsize)[rightcopy]){
+            temp[num++] = arr[leftcopy++];
+        }else{
+            temp[num++] = (arr + leftsize)[rightcopy++];
+        }
+    }
+
+    while(leftcopy < leftsize){
+        temp[num++] = arr[leftcopy++];
+    }
+    while(rightcopy < rightsize){
+        temp[num++] = (arr + leftsize)[rightcopy++];
+    }
+    for(int i = 0; i < leftsize + rightsize; i++){
+        arr[i] = temp[i];
+    }
+    delete []temp;
+}
+
+
+void mergeSort(int arr[], size_t size){
+    size_t leftsize;
+    size_t rightsize;
+    if(size > 1){
+        leftsize = size/2;
+        rightsize = size - leftsize;
+        mergeSort(arr, leftsize);
+        mergeSort((arr + leftsize), rightsize);
+        merge(arr, leftsize, rightsize);
+    }
+}
+
+void printArray(const int a[], size_t size) {
+	cout << "Printing Array" << endl;
+	for (int i = 0; i < size; i++) {
+		cout << "a[" << i << "] = " << a[i] << endl;
+	}
+}
+
+int main() {
+/*	int a[] = {1,2,3,4,5,6,7,8,9,10};
+	int b[] = {1,10,2,9,3,8,4,7,5,6};
+	int c[] = {2,9,4,7,6,5,8,3,10,1};
+	int d[] = {10,9,8,7,6,5,4,3,2,1};
+	int e[] = {1};
+
+	mergeSort(a, 10);
+	printArray(a,10);
+	cout << "---" << endl;
+	mergeSort(b, 10);
+	printArray(b,10);
+	cout << "---" << endl;
+	mergeSort(c,10);
+	printArray(c,10);
+	cout << "---" << endl;
+	mergeSort(d,10);
+	printArray(d,10);
+	cout << "---" << endl;
+	mergeSort(e,1);
+	printArray(e,1);
+*/
+    map<int, string> student;
+    student[0] = "Qi";
+    student[1] = "Echo";
+    student[2] = "Angie";
+    cout << student[0] << endl;
+    cout << student[1] << endl;
+    cout << student[2] << endl;
+    cout << "--------" << endl;
+    if(student.find(2) == student.end()){
+        cout << "cant find 2 " << endl;
+    }
+    if(student.find(3) == student.end()){
+        cout << "cant find 3"  << endl;
+    }
+    student.insert(pair<int, string>(3, "Kelly"));
+    cout << student[3] << endl;
+    cout << "--------" << endl;
+
+    for(map<int, string> :: iterator i = student.begin(); i != student.end(); i++){
+        cout << i -> first << ": " << i -> second  <<endl;
+    }
+    return 0;
+
+}
+
+
+
